@@ -13,6 +13,9 @@ public class LevelGenerator : MonoBehaviour {
 	public GameObject floorParent;
 	public GameObject wallsParent;
 
+
+    private static int MazeNumber = 0;
+
 	// allows us to see the maze generation from the scene view
 	public bool generateRoof = true;
 
@@ -33,11 +36,18 @@ public class LevelGenerator : MonoBehaviour {
 	// we use these to dig through our maze and to spawn the pickup at the end
 	private int mazeX = 4, mazeY = 1;
 
+
 	// Use this for initialization
 	void Start () {
 
+        MazeNumber++;
+
 		// initialize map 2D array
 		mapData = GenerateMazeData();
+        //Number of pits to generate. Generates 68 holes for a 30x30 maze.
+        int maxNumPits = Mathf.FloorToInt(10 * Mathf.Log(mazeSize));
+        int numPits = 0;
+        
 
 		// create actual maze blocks from maze boolean data
 		for (int z = 0; z < mazeSize; z++) {
@@ -56,16 +66,24 @@ public class LevelGenerator : MonoBehaviour {
 					// flag as placed so we never consider placing again
 					characterPlaced = true;
 				}
-
+                
+                int rand_result = UnityEngine.Random.Range(0,10);
 				// create floor and ceiling
-				CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
-
+				
+                //10% chance to have a hole -> 90% chance to not have a hole. 
+                if(rand_result > 0 || numPits > maxNumPits){
+                    CreateChildPrefab(floorPrefab, floorParent, x, 0, z);
+                }
+                else{
+                    numPits++;
+                }
 				if (generateRoof) {
 					CreateChildPrefab(ceilingPrefab, wallsParent, x, 4, z);
 				}
 			}
 		}
 
+        UnityEngine.Debug.Log(numPits);
 		// spawn the pickup at the end
 		var myPickup = Instantiate(pickup, new Vector3(mazeX, 1, mazeY), Quaternion.identity);
 		myPickup.transform.localScale = new Vector3(0.25f, 0.25f, 0.25f);
@@ -124,4 +142,12 @@ public class LevelGenerator : MonoBehaviour {
 		var myPrefab = Instantiate(prefab, new Vector3(x, y, z), Quaternion.identity);
 		myPrefab.transform.parent = parent.transform;
 	}
+
+    public static void SetMazeNumber(int value){
+        LevelGenerator.MazeNumber = value;
+    }
+
+    public static int GetMazeNumber(){
+        return LevelGenerator.MazeNumber;
+    }
 }
