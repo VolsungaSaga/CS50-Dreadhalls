@@ -497,7 +497,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 0.7830189, g: 0.22501184, b: 0.114498034, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -572,7 +572,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33038ff1aa93b249a868c6c4a70e896, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathYTrigger: -1
+  deathYTrigger: -15
+  screamYTrigger: -1
+  screamSound: {fileID: 8300000, guid: 0ebf034c7b1ba0a49873997734b05f37, type: 3}
 --- !u!114 &1286802630
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,15 +7,26 @@ public class PlayerLose : MonoBehaviour
 {
 
     public float deathYTrigger;
+    public float screamYTrigger;
+    private bool screamed = false;
+
+    public AudioClip screamSound; 
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        if(!screamed && gameObject.transform.position.y < screamYTrigger){
+            audioSource.PlayOneShot(screamSound);
+            screamed = true;
+        }
+
         if(gameObject.transform.position.y < deathYTrigger){
 
             GameObject obj = GameObject.Find("WhisperSource");
